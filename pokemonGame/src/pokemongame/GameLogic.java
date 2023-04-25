@@ -4,20 +4,13 @@
  */
 package pokemongame;
 
-import java.util.Arrays;
-
 /**
  *
  * @author Acer
  */
 public class GameLogic {
     
-    private Pokemon[][] matrixButtons;
-    private int selection1X;
-    private int selection1Y;
-    private int selection2X;
-    private int selection2Y;
-    
+    private final Pokemon[][] matrixButtons;
     
     public GameLogic(Pokemon[][] matrixButtons) {
         this.matrixButtons = matrixButtons;

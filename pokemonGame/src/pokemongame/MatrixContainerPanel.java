@@ -9,15 +9,11 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -31,13 +27,15 @@ public class MatrixContainerPanel extends JPanel{
     private ArrayList<File> pokemonImgs; 
     private Pokemon[][] matrixButtons;
     private GameLogic gameLogic;
-    private int[] selectedCoords = {-1, -1, -1, -1};
+    private LevelsManager levelsManager;
+    private PlayingFrame playingFrame;
+    private final int[] selectedCoords = {-1, -1, -1, -1};
     
     public MatrixContainerPanel() {
         
         setLayout(new GridLayout(ROWS, COLS, 2, 2));
-        setBackground(Color.GREEN);
-        setPreferredSize(new Dimension((size) * COLS, (size)* ROWS));
+        setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(size * COLS, size * ROWS));
         createListPokemonImgs();
         createMatrixButton();
     }
@@ -45,6 +43,8 @@ public class MatrixContainerPanel extends JPanel{
     private void createMatrixButton() {
         matrixButtons = new Pokemon[ROWS][COLS];
         gameLogic = new GameLogic(matrixButtons);
+        levelsManager = new LevelsManager(matrixButtons);
+        
         int index = 0;
         Collections.shuffle(pokemonImgs);
         for(int i = 0; i < ROWS; i++) {
@@ -58,6 +58,11 @@ public class MatrixContainerPanel extends JPanel{
                     matrixButtons[i][j].addActionListener((ActionEvent e) -> {
                         Pokemon clickedButton = (Pokemon) e.getSource();
                         handleButtonClick(clickedButton);
+                        if(allButtonsAreHidden()) {
+                            
+                            playingFrame = new PlayingFrame();
+                            
+                        }
                     });
                     index++;
                 }
@@ -134,6 +139,24 @@ public class MatrixContainerPanel extends JPanel{
     
     
     
+    private boolean allButtonsAreHidden() {
+        boolean allButtonsAreHidden = true;
+        for (int i = 0; i < matrixButtons.length; i++) {
+            for (int j = 0; j < matrixButtons[0].length; j++) {
+                if (matrixButtons[i][j].isVisible()) {
+                    allButtonsAreHidden = false;
+                    break;
+                }
+            }
+            if (!allButtonsAreHidden) {
+                break;
+            }
+        }
+        return allButtonsAreHidden;
+    }
+    
+    
+    
     
     
     
@@ -197,4 +220,8 @@ public class MatrixContainerPanel extends JPanel{
     }
 
     
+    
+    public Pokemon[][] getMatrixButtons() {
+        return matrixButtons;
+    }
 }

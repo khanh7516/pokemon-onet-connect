@@ -28,7 +28,7 @@ public class PlayingFrame extends JFrame{
     public PlayingFrame() {
         add(createMainPanel());
         setTitle("Pokemon Game");
-//        setResizable(false);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(width, height);
         setLocationRelativeTo(null);
@@ -46,9 +46,7 @@ public class PlayingFrame extends JFrame{
         graphicsPanel = new MatrixContainerPanel();
         JPanel panel = new JPanel(new GridBagLayout());
         
-//        JLabel backgroundLabel = new JLabel(new ImageIcon("E:/github/pokemon-onet-connect/pokemonGame/src/resources/background.jpg"));
-////        panel.setBackground(Color.gray);
-        panel.setBackground(Color.GREEN);
+        panel.setBackground(Color.BLACK);
         panel.add(graphicsPanel);
         return panel;
     }

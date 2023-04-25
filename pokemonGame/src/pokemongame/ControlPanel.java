@@ -49,7 +49,6 @@ public class ControlPanel extends JPanel {
 
         // use panel set Layout BorderLayout to panel control in top
         setLayout(new BorderLayout());
-        setBorder(new TitledBorder("Status"));
         add(panelControl, BorderLayout.PAGE_START);
 //		panel.add(new JLabel(icon), BorderLayout.CENTER);
     }
