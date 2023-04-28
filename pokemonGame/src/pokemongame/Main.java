@@ -4,6 +4,11 @@
  */
 package pokemongame;
 
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /**
  *
  * @author Acer
@@ -15,27 +20,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MenuFrame menuFrame = new MenuFrame();
-        menuFrame.setVisible(true);
-        menuFrame.setLocationRelativeTo(null);
-        menuFrame.setResizable(false);
-//        PlayingFrame playingFrame = new PlayingFrame();
-//          MatrixContainerPanel matrixContainerPanel = new MatrixContainerPanel();
-//          matrixContainerPanel.createListPokemonImgs();
 
-//        File gallery = new File("E:/github/pokemon-onet-connect/pokemonGame/src/resources/pokemon_pictures");
-//        if (!gallery.exists()) {
-//            System.out.println("Thư mục ảnh không tồn tại");
-//        } else {
-//            File[] images = gallery.listFiles();
-//            if (images != null) {
-//                // xử lý mảng ảnh tại đây
-//                for(File f : images) {
-//                    System.out.println(f.getName());
-//                }
-//            } else {
-//                System.out.println("Không có tệp tin nào trong thư mục ảnh");
-//            }
-//        }
+
+        MenuFrame menuFrame = new MenuFrame();
     }
 }

@@ -20,37 +20,43 @@ import javax.swing.JPanel;
  * @author Acer
  */
 public class MatrixContainerPanel extends JPanel{
-    private final int ROWS = 10;
-    private final int COLS = 20;
-    private final int size = 45;
+    private int rows;
+    private int cols;
+    private int size = 40;
+    private int numberOfImgs;
+    private int dupImgs;
     
     private ArrayList<File> pokemonImgs; 
     private Pokemon[][] matrixButtons;
     private GameLogic gameLogic;
-    private LevelsManager levelsManager;
     private PlayingFrame playingFrame;
+    private static int level = 1;
     private final int[] selectedCoords = {-1, -1, -1, -1};
     
-    public MatrixContainerPanel() {
+    public MatrixContainerPanel(PlayingFrame playingFrame, int rows, int cols, int numberOfImgs, int duplicateImgs) {
+        this.playingFrame = playingFrame;
+        this.rows = rows;
+        this.cols = cols;
+        this.numberOfImgs = numberOfImgs;
+        this.dupImgs = duplicateImgs;
         
-        setLayout(new GridLayout(ROWS, COLS, 2, 2));
+        setLayout(new GridLayout(rows, cols, 2, 2));
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(size * COLS, size * ROWS));
+        setPreferredSize(new Dimension(size * cols, size * cols));
         createListPokemonImgs();
         createMatrixButton();
     }
     
     private void createMatrixButton() {
-        matrixButtons = new Pokemon[ROWS][COLS];
+        matrixButtons = new Pokemon[rows][cols];
         gameLogic = new GameLogic(matrixButtons);
-        levelsManager = new LevelsManager(matrixButtons);
         
         int index = 0;
         Collections.shuffle(pokemonImgs);
-        for(int i = 0; i < ROWS; i++) {
-            for(int j = 0; j < COLS; j++) {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
                 matrixButtons[i][j] = new Pokemon();
-                if (i > 0 && i < ROWS - 1 && j > 0 && j < COLS - 1 && index < pokemonImgs.size()) {
+                if (i > 0 && i < rows - 1 && j > 0 && j < cols - 1 && index < pokemonImgs.size()) {
                     matrixButtons[i][j].setValue(pokemonImgs.get(index));
                     matrixButtons[i][j].setIcon(createPokemonIcon(index));
                     matrixButtons[i][j].setBackground(Color.WHITE);
@@ -59,10 +65,10 @@ public class MatrixContainerPanel extends JPanel{
                         Pokemon clickedButton = (Pokemon) e.getSource();
                         handleButtonClick(clickedButton);
                         if(allButtonsAreHidden()) {
-                            
-                            playingFrame = new PlayingFrame();
-                            
+                            this.playingFrame.setVisible(false);
+                            this.playingFrame = new PlayingFrame(++level);                           
                         }
+
                     });
                     index++;
                 }
@@ -73,39 +79,39 @@ public class MatrixContainerPanel extends JPanel{
     }
     
     private void handleButtonClick(Pokemon clickedButton) {
-        int row = -1;
-        int col = -1;
+        int x = -1;
+        int y = -1;
         // Tìm tọa độ của nút được chọn
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLS; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 if (matrixButtons[i][j] == clickedButton) {
-                    row = i;
-                    col = j;
+                    x = i;
+                    y = j;
                     break;
                 }
             }
-            if (row != -1) {
+            if (-1 != x && y != -1) {
                 break;
             }
         }  
 
             // Nếu chưa có nút nào được chọn
         if (selectedCoords[0] == -1 && selectedCoords[1] == -1) {
-            selectButton(clickedButton, row, col);
+            selectButton(clickedButton, x, y);
         }
         // Nếu nút được chọn trùng với nút đã chọn trước đó
-        else if (selectedCoords[0] == row && selectedCoords[1] == col) {
+        else if (selectedCoords[0] == x && selectedCoords[1] == y) {
             unselectButton(clickedButton);
         }
         // Nếu nút được chọn khác với nút đã chọn trước đó
         else {
-            selectAnotherButton(clickedButton, row, col);
+            selectAnotherButton(clickedButton, x, y);
         }
     }
 
-    private void selectButton(Pokemon button, int row, int col) {
-        selectedCoords[0] = row;
-        selectedCoords[1] = col;
+    private void selectButton(Pokemon button, int x, int y) {
+        selectedCoords[0] = x;
+        selectedCoords[1] = y;
         button.setSelected(true);
     }
 
@@ -113,11 +119,12 @@ public class MatrixContainerPanel extends JPanel{
         selectedCoords[0] = -1;
         selectedCoords[1] = -1;
         button.setSelected(false);
+
     }
 
-    private void selectAnotherButton(Pokemon button, int row, int col) {
-        selectedCoords[2] = row;
-        selectedCoords[3] = col;
+    private void selectAnotherButton(Pokemon button, int x, int y) {
+        selectedCoords[2] = x;
+        selectedCoords[3] = y;
         // Gọi method kiểm tra nút được chọn
         boolean isMatching = gameLogic.checkMatching(selectedCoords[0], selectedCoords[1], selectedCoords[2], selectedCoords[3]);
         if (isMatching) {
@@ -129,6 +136,8 @@ public class MatrixContainerPanel extends JPanel{
         selectedCoords[0] = -1;
         selectedCoords[1] = -1;
         button.setSelected(false);
+        System.out.println(checkMatrixForMatch());
+
     }
     
     
@@ -157,7 +166,32 @@ public class MatrixContainerPanel extends JPanel{
     
     
     
-    
+    public boolean checkMatrixForMatch() {
+        if (allButtonsAreHidden()) return true;
+        for (int i = 1; i < matrixButtons.length - 1; i++) {
+            for (int j = 1; j < matrixButtons[0].length - 1; j++) {
+                if (!matrixButtons[i][j].isVisible()) {
+                    continue; // skip buttons that are not visible
+                }
+                for (int k = i; k < matrixButtons.length - 1; k++) {
+                    for (int l = 1; l < matrixButtons[0].length - 1; l++) {
+                        if (!matrixButtons[k][l].isVisible()) {
+                            continue; // skip buttons that are not visible
+                        }
+                        if (k == i && l <= j) {
+                            continue; // skip pairs that have already been checked
+                        }
+                        if (gameLogic.checkMatching(i, j, k, l)) {
+                            return true; // found a matching pair
+                        }
+                    }
+                }
+            }
+        }
+        return false; // no matching pairs found
+    }
+
+
     
     
     
@@ -203,12 +237,12 @@ public class MatrixContainerPanel extends JPanel{
     
     
     private void createListPokemonImgs() {
-        File gallery = new File("E:/github/pokemon-onet-connect/pokemonGame/src/resources/pokemon_pictures");
+        File gallery = new File("src/resources/pokemon_pictures");
         File[] images = gallery.listFiles();
         pokemonImgs = new ArrayList<>();
-        for (File image : images) {
-            for (int j = 0; j < 6; j++) {
-                pokemonImgs.add(image);
+        for (int i = 0; i < numberOfImgs; i++) {
+            for (int j = 0; j < dupImgs; j++) {
+                pokemonImgs.add(images[i]);
             }
         } 
     }

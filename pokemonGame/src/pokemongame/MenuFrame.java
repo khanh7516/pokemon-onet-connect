@@ -5,21 +5,43 @@
 package pokemongame;
 
 import java.awt.Color;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 /**
  *
  * @author Acer
  */
 public class MenuFrame extends javax.swing.JFrame {
-
+    public static Clip clip;
     /**
      * Creates new form MenuFrame
      */
     public MenuFrame() {
         initComponents();
+        try {
+            // Load audio file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/route1.wav"));
+
+            // Get audio clip
+            clip = AudioSystem.getClip();
+
+            // Open audio clip and start playing
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         btnPlay.setBackground(Color.WHITE);
         btnRecord.setBackground(Color.WHITE);
         btnExit.setBackground(Color.WHITE);
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     /**
@@ -42,7 +64,12 @@ public class MenuFrame extends javax.swing.JFrame {
         panel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnExit.setText("Exit");
-        panel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, 180, 39));
+        btnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExitActionPerformed(evt);
+            }
+        });
+        panel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 259, 270, 50));
 
         btnPlay.setText("Play");
         btnPlay.addActionListener(new java.awt.event.ActionListener() {
@@ -50,7 +77,7 @@ public class MenuFrame extends javax.swing.JFrame {
                 btnPlayActionPerformed(evt);
             }
         });
-        panel1.add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, 180, 39));
+        panel1.add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 139, 270, 50));
 
         btnRecord.setText("Record");
         btnRecord.addActionListener(new java.awt.event.ActionListener() {
@@ -58,7 +85,7 @@ public class MenuFrame extends javax.swing.JFrame {
                 btnRecordActionPerformed(evt);
             }
         });
-        panel1.add(btnRecord, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 180, 39));
+        panel1.add(btnRecord, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 199, 270, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.jpg"))); // NOI18N
         panel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 0, 530, 340));
@@ -79,14 +106,21 @@ public class MenuFrame extends javax.swing.JFrame {
 
     private void btnRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnRecordActionPerformed
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
         // TODO add your handling code here:
-        PlayingFrame playingFrame = new PlayingFrame();
-        playingFrame.setVisible(true);
+        PlayingFrame playingFrame = new PlayingFrame(1);
+        
         setVisible(false);
+//        clip.close();
     }//GEN-LAST:event_btnPlayActionPerformed
+
+    private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnExitActionPerformed
 
     /**
      * @param args the command line arguments
