@@ -51,6 +51,11 @@ public class MatrixContainerPanel extends JPanel{
         createListPokemonImgs();
         createMatrixButton();
     }
+
+    public Pokemon[][] getMatrixButtons() {
+        return matrixButtons;
+    }
+    
     
     private void createMatrixButton() {
         matrixButtons = new Pokemon[rows][cols];
@@ -63,17 +68,17 @@ public class MatrixContainerPanel extends JPanel{
                 matrixButtons[i][j] = new Pokemon();
                 if (i > 0 && i < rows - 1 && j > 0 && j < cols - 1 && index < pokemonImgs.size()) {
                     matrixButtons[i][j].setValue(pokemonImgs.get(index));
-                    matrixButtons[i][j].setIcon(createPokemonIcon(index));
+                    matrixButtons[i][j].setIcon(createPokemonIcon(index, pokemonImgs));
                     matrixButtons[i][j].setBackground(Color.WHITE);
                     matrixButtons[i][j].setVisible(true);
                     matrixButtons[i][j].addActionListener((ActionEvent e) -> {
                         Pokemon clickedButton = (Pokemon) e.getSource();
                         handleButtonClick(clickedButton);
                         if(allButtonsAreHidden()) {
+                            ControlPanel.stopTime();
                             this.playingFrame.setVisible(false);
-                            this.playingFrame = new PlayingFrame(++level);                           
+                            this.playingFrame = new PlayingFrame(level);                           
                         }
-
                     });
                     index++;
                 }
@@ -103,6 +108,7 @@ public class MatrixContainerPanel extends JPanel{
             // Nếu chưa có nút nào được chọn
         if (selectedCoords[0] == -1 && selectedCoords[1] == -1) {
             selectButton(clickedButton, x, y);
+            
         }
         // Nếu nút được chọn trùng với nút đã chọn trước đó
         else if (selectedCoords[0] == x && selectedCoords[1] == y) {
@@ -112,6 +118,11 @@ public class MatrixContainerPanel extends JPanel{
         else {
             selectAnotherButton(clickedButton, x, y);
         }
+        System.out.println("!!!!!!!!");
+//        System.out.println(checkMatrixForMatch());
+//        while (!checkMatrixForMatch()) {            
+//            shufflePokemons();
+//        }
     }
 
     private void selectButton(Pokemon button, int x, int y) {
@@ -135,24 +146,21 @@ public class MatrixContainerPanel extends JPanel{
         if (isMatching) {
             matrixButtons[selectedCoords[0]][selectedCoords[1]].setVisible(false);
             matrixButtons[selectedCoords[2]][selectedCoords[3]].setVisible(false);
+            ControlPanel.upScore();
+            ControlPanel.upTime();
         }
         System.out.printf("%d,%d   %d,%d ", selectedCoords[0], selectedCoords[1], selectedCoords[2], selectedCoords[3]);
         // Đặt lại giá trị của biến tạm thời
         selectedCoords[0] = -1;
         selectedCoords[1] = -1;
         button.setSelected(false);
-        ControlPanel.upScore();
+
         System.out.println(checkMatrixForMatch());
+        while (!checkMatrixForMatch()) {            
+            shufflePokemons();
+        }
 
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
     private boolean allButtonsAreHidden() {
         boolean allButtonsAreHidden = true;
@@ -170,9 +178,7 @@ public class MatrixContainerPanel extends JPanel{
         return allButtonsAreHidden;
     }
     
-    
-    
-    public boolean checkMatrixForMatch() {
+    private boolean checkMatrixForMatch() {
         if (allButtonsAreHidden()) return true;
         for (int i = 1; i < matrixButtons.length - 1; i++) {
             for (int j = 1; j < matrixButtons[0].length - 1; j++) {
@@ -197,51 +203,31 @@ public class MatrixContainerPanel extends JPanel{
         return false; // no matching pairs found
     }
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private void shufflePokemons() {
+        ArrayList<File> visiblePokemonImgs = new ArrayList<>();
+        for (int i = 1; i < rows - 1; i++) {
+            for (int j = 1; j < cols - 1; j++){
+                if(matrixButtons[i][j].isVisible()) {
+                    visiblePokemonImgs.add(matrixButtons[i][j].getValue());
+                }
+            }
+        }
+        
+        Collections.shuffle(visiblePokemonImgs);
+        int indexShuffleList = 0;
+        
+        for (int i = 1; i < rows - 1; i++) {
+            for (int j = 1; j < cols - 1; j++){
+                if(matrixButtons[i][j].isVisible()) {
+                    matrixButtons[i][j].setValue(visiblePokemonImgs.get(indexShuffleList));
+                    matrixButtons[i][j].setIcon(createPokemonIcon(indexShuffleList, visiblePokemonImgs));
+                    indexShuffleList++;
+                }
+            }
+        }
+        
+    }
+  
     private void createListPokemonImgs() {
         File gallery = new File("src/resources/pokemon_pictures");
         File[] images = gallery.listFiles();
@@ -253,8 +239,8 @@ public class MatrixContainerPanel extends JPanel{
         } 
     }
     
-    private ImageIcon createPokemonIcon(int index) {
-        ImageIcon icon = new ImageIcon(pokemonImgs.get(index).getPath());
+    private ImageIcon createPokemonIcon(int index, ArrayList<File> pokemonIconsList) {
+        ImageIcon icon = new ImageIcon(pokemonIconsList.get(index).getPath());
         Image image = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }

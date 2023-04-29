@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
@@ -21,10 +22,10 @@ import javax.swing.border.EmptyBorder;
  * @author Acer
  */
 public class ControlPanel extends JPanel implements ActionListener{
-    private Timer timer;
-    private int count;
+    private static Timer timer;
+    private static int count;
     private static int score = 0;
-    private JProgressBar progressTime;
+    private static JProgressBar progressTime;
     private static JLabel lbScore;
     
 
@@ -95,6 +96,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         // If the count reaches zero, stop the timer
         if (count < 0) {
             timer.stop();
+            JOptionPane.showConfirmDialog(null, "Game over");
         }  
     }
     
@@ -105,5 +107,14 @@ public class ControlPanel extends JPanel implements ActionListener{
     
     public static void resetScore() {
         score = 0;
+    }
+    
+    public static void stopTime() {
+        timer.stop();
+    }
+    
+    public static void upTime() {
+        count += 5;
+        progressTime.setValue(count);
     }
 }

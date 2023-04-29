@@ -31,8 +31,8 @@ public class PlayingFrame extends JFrame{
     private int numberOfLevels = 2;
     
     public PlayingFrame(int levelIndex) {
-        levels.put(1, new Level(8, 12 , 10, 6, 500));
-        levels.put(2, new Level(8, 12 , 10, 6, 500));
+        levels.put(1, new Level(6, 6 , 8, 2, 300));
+        levels.put(2, new Level(8, 12 , 10, 6, 30));
 //        levels.put(3, new Level(8, 12 , 10, 6, 500));
 //        levels.put(4, new Level(8, 12 , 10, 6, 500));
 //        levels.put(5, new Level(8, 12 , 10, 6, 500));
