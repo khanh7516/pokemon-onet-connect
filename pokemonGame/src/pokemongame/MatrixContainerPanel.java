@@ -22,9 +22,10 @@ import javax.swing.JPanel;
 public class MatrixContainerPanel extends JPanel{
     private int rows;
     private int cols;
-    private int size = 40;
+    private int size = 45;
     private int numberOfImgs;
     private int dupImgs;
+    private int numberOfLevels = 2;
     
     private ArrayList<File> pokemonImgs; 
     private Pokemon[][] matrixButtons;
@@ -40,9 +41,13 @@ public class MatrixContainerPanel extends JPanel{
         this.numberOfImgs = numberOfImgs;
         this.dupImgs = duplicateImgs;
         
+        if(level > numberOfLevels) {
+            level = 1;
+        }
+        
         setLayout(new GridLayout(rows, cols, 2, 2));
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(size * cols, size * cols));
+        setPreferredSize(new Dimension(size * cols, size * rows));
         createListPokemonImgs();
         createMatrixButton();
     }
@@ -136,6 +141,7 @@ public class MatrixContainerPanel extends JPanel{
         selectedCoords[0] = -1;
         selectedCoords[1] = -1;
         button.setSelected(false);
+        ControlPanel.upScore();
         System.out.println(checkMatrixForMatch());
 
     }
@@ -251,11 +257,5 @@ public class MatrixContainerPanel extends JPanel{
         ImageIcon icon = new ImageIcon(pokemonImgs.get(index).getPath());
         Image image = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(image);
-    }
-
-    
-    
-    public Pokemon[][] getMatrixButtons() {
-        return matrixButtons;
     }
 }

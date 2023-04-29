@@ -21,6 +21,7 @@ public class MenuFrame extends javax.swing.JFrame {
      */
     public MenuFrame() {
         initComponents();
+//        setEnabled(false);
         try {
             // Load audio file
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/route1.wav"));

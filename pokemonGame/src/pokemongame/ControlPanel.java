@@ -23,7 +23,9 @@ import javax.swing.border.EmptyBorder;
 public class ControlPanel extends JPanel implements ActionListener{
     private Timer timer;
     private int count;
+    private static int score = 0;
     private JProgressBar progressTime;
+    private static JLabel lbScore;
     
 
     public ControlPanel(int playingTime) {
@@ -35,7 +37,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     private void createControlView() {
-        JLabel lbScore = new JLabel("100000");
+        lbScore = new JLabel();
+        lbScore.setText(Integer.toString(score));
         lbScore.setFont(new Font("Arial",Font.BOLD ,26));
         lbScore.setHorizontalAlignment(JLabel.CENTER);
         lbScore.setVerticalAlignment(JLabel.CENTER);
@@ -95,5 +98,12 @@ public class ControlPanel extends JPanel implements ActionListener{
         }  
     }
     
+    public static void upScore() {
+        score += 100;
+        lbScore.setText(Integer.toString(score));
+    }
     
+    public static void resetScore() {
+        score = 0;
+    }
 }
