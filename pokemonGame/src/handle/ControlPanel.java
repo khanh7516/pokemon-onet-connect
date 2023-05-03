@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pokemongame;
+package handle;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 public class ControlPanel extends JPanel implements ActionListener{
     private static Timer timer;
     private static int count;
+    private static int copyCount;
     private static int score = 0;
     private static JProgressBar progressTime;
     private static JLabel lbScore;
@@ -31,7 +32,7 @@ public class ControlPanel extends JPanel implements ActionListener{
 
     public ControlPanel(int playingTime) {
         count = playingTime;
-        
+        copyCount = count;
         createControlView();
         timer = new Timer(1000, this);
         timer.start();
@@ -87,7 +88,7 @@ public class ControlPanel extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         count--;
         progressTime.setValue(count);
-        if(count >= 50 /5) progressTime.setForeground(Color.GREEN);
+        if(count >= copyCount / 5) progressTime.setForeground(Color.GREEN);
         else progressTime.setForeground(Color.red);
 
         // Decrement the count
@@ -101,7 +102,8 @@ public class ControlPanel extends JPanel implements ActionListener{
     }
     
     public static void upScore() {
-        score += 100;
+        if(count >= copyCount / 2 ) score += 200;
+        else score += 100;
         lbScore.setText(Integer.toString(score));
     }
     

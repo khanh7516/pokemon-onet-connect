@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package pokemongame;
+package handle;
 
+import entity.Level;
+import entity.Pokemon;
+import view.PlayingFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -25,7 +28,7 @@ public class MatrixContainerPanel extends JPanel{
     private int size = 45;
     private int numberOfImgs;
     private int dupImgs;
-    private int numberOfLevels = 2;
+    private int numberOfLevels = 5;
     
     private ArrayList<File> pokemonImgs; 
     private Pokemon[][] matrixButtons;
@@ -34,12 +37,12 @@ public class MatrixContainerPanel extends JPanel{
     private static int level = 1;
     private final int[] selectedCoords = {-1, -1, -1, -1};
     
-    public MatrixContainerPanel(PlayingFrame playingFrame, int rows, int cols, int numberOfImgs, int duplicateImgs) {
+    public MatrixContainerPanel(PlayingFrame playingFrame, Level currentLevel) {
         this.playingFrame = playingFrame;
-        this.rows = rows;
-        this.cols = cols;
-        this.numberOfImgs = numberOfImgs;
-        this.dupImgs = duplicateImgs;
+        this.rows = currentLevel.getRows();
+        this.cols = currentLevel.getCols();
+        this.numberOfImgs = currentLevel.getNumberOfImgs();
+        this.dupImgs = currentLevel.getDuplicateImgs();
         
         if(level > numberOfLevels) {
             level = 1;
@@ -77,7 +80,7 @@ public class MatrixContainerPanel extends JPanel{
                         if(allButtonsAreHidden()) {
                             ControlPanel.stopTime();
                             this.playingFrame.setVisible(false);
-                            this.playingFrame = new PlayingFrame(level);                           
+                            this.playingFrame = new PlayingFrame(++level);                           
                         }
                     });
                     index++;

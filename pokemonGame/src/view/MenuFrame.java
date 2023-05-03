@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package pokemongame;
+package view;
 
+import view.PlayingFrame;
 import java.awt.Color;
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
