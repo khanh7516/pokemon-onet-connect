@@ -7,6 +7,7 @@ package view;
 import view.PlayingFrame;
 import java.awt.Color;
 import java.io.File;
+import java.time.LocalDateTime;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -16,27 +17,11 @@ import javax.sound.sampled.Clip;
  * @author Acer
  */
 public class MenuFrame extends javax.swing.JFrame {
-    public static Clip clip;
     /**
      * Creates new form MenuFrame
      */
     public MenuFrame() {
         initComponents();
-//        setEnabled(false);
-        try {
-            // Load audio file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/route1.wav"));
-
-            // Get audio clip
-            clip = AudioSystem.getClip();
-
-            // Open audio clip and start playing
-            clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         
         btnPlay.setBackground(Color.WHITE);
         btnRecord.setBackground(Color.WHITE);
@@ -108,15 +93,15 @@ public class MenuFrame extends javax.swing.JFrame {
 
     private void btnRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordActionPerformed
         // TODO add your handling code here:
-
+        PlayedHistoryFrame playedHistoryFrame = new PlayedHistoryFrame();
+        setVisible(false);
     }//GEN-LAST:event_btnRecordActionPerformed
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
         // TODO add your handling code here:
-        PlayingFrame playingFrame = new PlayingFrame(1);
-        
+        LocalDateTime startTime = LocalDateTime.now();
+        PlayingFrame playingFrame = new PlayingFrame(1, startTime);
         setVisible(false);
-//        clip.close();
     }//GEN-LAST:event_btnPlayActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed

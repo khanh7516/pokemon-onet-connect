@@ -10,19 +10,17 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+
 /**
  *
  * @author Acer
  */
 public class Main {
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-
-
         MenuFrame menuFrame = new MenuFrame();
     }
 }

@@ -18,7 +18,6 @@ public class Pokemon extends JButton{
         setVisible(false);
     }
 
-    
     public File getValue() {
       return value;
     }

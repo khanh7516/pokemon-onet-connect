@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Panel;
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
@@ -18,9 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.plaf.DimensionUIResource;
 import handle.ControlPanel;
 import entity.Level;
+import entity.Player;
 import handle.MatrixContainerPanel;
 
 /**
@@ -30,21 +28,20 @@ import handle.MatrixContainerPanel;
 public class PlayingFrame extends JFrame{
     private int width = 1050;
     private int height = 700;
+    private int numberOfLevels = 1;
+    
     private HashMap<Integer, Level> levels = new HashMap();
     private Level currentLevel;
-    private int numberOfLevels = 5;
+    private int levelIndex;
+    private LocalDateTime startTime;
     
-    public PlayingFrame(int levelIndex) {
-        setTitle("Pokemon Game");
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(width, height);
-        setLocationRelativeTo(null);
-        setVisible(true);
+    public PlayingFrame(int levelIndex, LocalDateTime startTime) {
+        this.levelIndex = levelIndex;
+        this.startTime = startTime;
         
-        
-        
+        //setup levels
         levels.put(1, new Level(6, 6 , 8, 2, 10));
+//        levels.put(2, new Level(6, 6 , 8, 2, 10));
 //        levels.put(2, new Level(8, 12 , 10, 6, 30));
 //        levels.put(3, new Level(8, 12 , 10, 6, 500));
 //        levels.put(4, new Level(8, 12 , 10, 6, 500));
@@ -54,31 +51,36 @@ public class PlayingFrame extends JFrame{
         levels.put(4, new Level(12, 20 , 30, 6, 500));
         levels.put(5, new Level(12, 23 , 35, 6, 500));
         
-        LocalDateTime startTime = LocalDateTime.now();  
-        
-        
+
         if( levelIndex >= 1 && levelIndex <= numberOfLevels) {
             currentLevel = levels.get(levelIndex);
             add(createMainPanel());
         }else { 
-            
+            PlayedHistoryFrame.addNewPlayer(new Player(startTime, LocalDateTime.now(), numberOfLevels, ControlPanel.getScore(), true));
+            PlayedHistoryFrame.displayPlayers();
             add(createEndgamePanel());
             ControlPanel.resetScore();
         }
- 
         
-
+        
+        
+        setTitle("Pokemon Game");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(width, height);
+        setLocationRelativeTo(null);
+        setVisible(true);        
     }
     
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(createMatrixGraphicsPanel(), BorderLayout.CENTER);
-        panel.add(new ControlPanel(currentLevel.getPlayingTime()), BorderLayout.NORTH);
+        panel.add(new ControlPanel(this, currentLevel.getPlayingTime(), levelIndex, startTime), BorderLayout.NORTH);
         return panel;
     } 
     
     private JPanel createMatrixGraphicsPanel() {
-        MatrixContainerPanel graphicsPanel = new MatrixContainerPanel(this, currentLevel);
+        MatrixContainerPanel graphicsPanel = new MatrixContainerPanel(this, currentLevel, numberOfLevels);
         JPanel panel = new JPanel(new GridBagLayout());
         
         panel.setBackground(Color.BLACK);
@@ -92,7 +94,6 @@ public class PlayingFrame extends JFrame{
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.ORANGE);
         JLabel winLabel = new JLabel(new ImageIcon(getClass().getResource("/resources/youWin.jpg")));
-//        winLabel.setHorizontalAlignment(JLabel.CENTER);
         
         panel.add(winLabel, new GridBagConstraints());
         
@@ -100,7 +101,7 @@ public class PlayingFrame extends JFrame{
         btnBackToMenu.setBackground(Color.WHITE);
         btnBackToMenu.addActionListener((e) -> {
             MenuFrame menuFrame = new MenuFrame();
-            MenuFrame.clip.close();
+            ControlPanel.clip.close();
             setVisible(false);
         });
         
@@ -111,4 +112,15 @@ public class PlayingFrame extends JFrame{
         
         return panel;
     }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
+    
+    
 }
