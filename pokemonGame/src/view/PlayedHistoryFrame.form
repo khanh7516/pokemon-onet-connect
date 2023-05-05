@@ -30,8 +30,8 @@
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="btnSortByStartTime" min="-2" pref="141" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnTopPlayer" min="-2" pref="133" max="-2" attributes="0"/>
-                      <EmptySpace pref="362" max="32767" attributes="0"/>
+                      <Component id="btnTopPlayer" min="-2" pref="166" max="-2" attributes="0"/>
+                      <EmptySpace pref="329" max="32767" attributes="0"/>
                       <Component id="btnBackToMenu" min="-2" pref="179" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   </Group>
@@ -40,6 +40,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="lblMessage" min="-2" pref="450" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -52,7 +57,9 @@
                   <Component id="btnSortByStartTime" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnTopPlayer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+              <Component id="lblMessage" min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="473" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -71,12 +78,12 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="0">
-                <Column editable="true" title="ID" type="java.lang.Object"/>
-                <Column editable="true" title="Th&#x1edd;i gian b&#x1eaf;t &#x111;&#x1ea7;u ch&#x1a1;i" type="java.lang.Object"/>
-                <Column editable="true" title="Kho&#x1ea3;ng th&#x1edd;i gian ch&#x1a1;i" type="java.lang.Integer"/>
-                <Column editable="true" title="&#x110;i&#x1ec3;m s&#x1ed1;" type="java.lang.Integer"/>
-                <Column editable="true" title="M&#xe0;n ch&#x1a1;i cao nh&#x1ea5;t" type="java.lang.Integer"/>
-                <Column editable="true" title="Chi&#x1ebf;n th&#x1eaf;ng tr&#xf2; ch&#x1a1;i" type="java.lang.Boolean"/>
+                <Column editable="false" title="ID" type="java.lang.Object"/>
+                <Column editable="false" title="Th&#x1edd;i gian b&#x1eaf;t &#x111;&#x1ea7;u" type="java.lang.Object"/>
+                <Column editable="false" title="Kho&#x1ea3;ng th&#x1edd;i gian ch&#x1a1;i" type="java.lang.Integer"/>
+                <Column editable="false" title="&#x110;i&#x1ec3;m s&#x1ed1;" type="java.lang.Integer"/>
+                <Column editable="false" title="M&#xe0;n ch&#x1a1;i cao nh&#x1ea5;t" type="java.lang.Integer"/>
+                <Column editable="false" title="Chi&#x1ebf;n th&#x1eaf;ng tr&#xf2; ch&#x1a1;i" type="java.lang.Boolean"/>
               </Table>
             </Property>
           </Properties>
@@ -93,7 +100,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnTopPlayer">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Top Players"/>
+        <Property name="text" type="java.lang.String" value="Th&#xe0;nh t&#xed;ch t&#x1ed1;t nh&#x1ea5;t"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTopPlayerActionPerformed"/>
@@ -101,11 +108,13 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnSortByStartTime">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Game Order"/>
+        <Property name="text" type="java.lang.String" value="G&#x1ea7;n &#x111;&#xe2;y nh&#x1ea5;t"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSortByStartTimeActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMessage">
     </Component>
   </SubComponents>
 </Form>

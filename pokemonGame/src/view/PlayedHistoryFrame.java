@@ -5,8 +5,10 @@
 package view;
 
 import entity.Player;
+import handle.ExcelHandle;
 import java.awt.Color;
-import java.time.LocalDateTime;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -24,6 +26,8 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
     
     public PlayedHistoryFrame() {
         initComponents();
+        
+        loadGameHistory();
         setTitle("Lịch sử chơi");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,11 +37,13 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
         btnBackToMenu.setBackground(Color.BLACK);
         btnBackToMenu.setForeground(Color.WHITE);
         
+        int index = 0;
         DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
         for(Player player : playerRecords) {
-            Object[] rowData = {player.getId(), player.getStartTime(), player.getTimeTaken(), player.getScore(), player.getLevelReached(), player.isHasCompletedAllLevels()}; 
+            Object[] rowData = {++index, player.getTimeTaken(), player.getScore(), player.getLevelReached(), player.isHasCompletedAllLevels()}; 
             model.addRow(rowData);
         }
+        btnSortByStartTimeActionPerformed(null);
     }
     
     public static void addNewPlayer(Player player) {
@@ -48,7 +54,21 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
         for (Player player : playerRecords) System.out.println(player);
     }
     
+    public static void saveGame() {
+        try {
+            ExcelHandle.writeExcel("src/excelFiles/game_history.xlsx", PlayedHistoryFrame.playerRecords);
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
+    public static void loadGameHistory() {
+        try {
+            playerRecords = ExcelHandle.readExcel("src/excelFiles/game_history.xlsx");
+        }catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,6 +83,7 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
         btnBackToMenu = new javax.swing.JButton();
         btnTopPlayer = new javax.swing.JButton();
         btnSortByStartTime = new javax.swing.JButton();
+        lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,15 +92,22 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Thời gian bắt đầu chơi", "Khoảng thời gian chơi", "Điểm số", "Màn chơi cao nhất", "Chiến thắng trò chơi"
+                "ID", "Thời gian bắt đầu", "Khoảng thời gian chơi", "Điểm số", "Màn chơi cao nhất", "Chiến thắng trò chơi"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tablePlayers);
@@ -91,14 +119,14 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
             }
         });
 
-        btnTopPlayer.setText("Top Players");
+        btnTopPlayer.setText("Thành tích tốt nhất");
         btnTopPlayer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTopPlayerActionPerformed(evt);
             }
         });
 
-        btnSortByStartTime.setText("Game Order");
+        btnSortByStartTime.setText("Gần đây nhất");
         btnSortByStartTime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSortByStartTimeActionPerformed(evt);
@@ -116,13 +144,17 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addComponent(btnSortByStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTopPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
+                        .addComponent(btnTopPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
                         .addComponent(btnBackToMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +164,9 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
                     .addComponent(btnBackToMenu)
                     .addComponent(btnSortByStartTime)
                     .addComponent(btnTopPlayer))
-                .addGap(35, 35, 35)
+                .addGap(7, 7, 7)
+                .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 473, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -148,7 +182,7 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
 
     private void btnTopPlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTopPlayerActionPerformed
         // TODO add your handling code here:
-        
+        lblMessage.setText("Những lần chơi có thành tích tốt nhất!");
         List<Player> sortedPlayers = new ArrayList<>();
         sortedPlayers.addAll(playerRecords);
         DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
@@ -164,7 +198,7 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
         for (int i = 0; i < sortedPlayers.size(); i++) {
             Player p = sortedPlayers.get(i);
             model.setValueAt(i+1, i, 0);
-            model.setValueAt(p.getStartTime(), i, 1);
+            model.setValueAt(p.getStartTimeToString(), i, 1);
             model.setValueAt(p.getTimeTaken(), i, 2);
             model.setValueAt(p.getScore(), i, 3);
             model.setValueAt(p.getLevelReached(), i, 4);
@@ -174,18 +208,20 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
 
     private void btnSortByStartTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortByStartTimeActionPerformed
         // TODO add your handling code here:
+        lblMessage.setText("Những lần chơi gần đây");
         List<Player> sortedPlayers = new ArrayList<>();
         sortedPlayers.addAll(playerRecords);
         DefaultTableModel model = (DefaultTableModel) tablePlayers.getModel();
 
-        // Sắp xếp danh sách Player theo yêu cầu
-        sortedPlayers.sort(Comparator.comparing(Player::getStartTime));
-
+        // Sắp xếp danh sách Player theo lần chơi mới nhất
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        sortedPlayers.sort(Comparator.comparing(Player::getStartTimeToString));
+        
         // Cập nhật dữ liệu đã sắp xếp vào bảng
         for (int i = 0; i < sortedPlayers.size(); i++) {
             Player p = sortedPlayers.get(i);
-            model.setValueAt(p.getId(), i, 0);
-            model.setValueAt(p.getStartTime(), i, 1);
+            model.setValueAt(i+1, i, 0);
+            model.setValueAt(p.getStartTimeToString(), i, 1);
             model.setValueAt(p.getTimeTaken(), i, 2);
             model.setValueAt(p.getScore(), i, 3);
             model.setValueAt(p.getLevelReached(), i, 4);
@@ -233,6 +269,7 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSortByStartTime;
     private javax.swing.JButton btnTopPlayer;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblMessage;
     private javax.swing.JTable tablePlayers;
     // End of variables declaration//GEN-END:variables
 }

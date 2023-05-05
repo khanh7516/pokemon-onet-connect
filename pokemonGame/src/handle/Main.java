@@ -4,23 +4,33 @@
  */
 package handle;
 
-import view.MenuFrame;
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import view.MenuFrame;
 
-
-/**
- *
- * @author Acer
- */
 public class Main {
+    public static Clip clip;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        try {
+            // Load audio file
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/Kawai.wav"));
+
+            // Get audio clip
+            clip = AudioSystem.getClip();
+
+            // Open audio clip and start playing
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+
         MenuFrame menuFrame = new MenuFrame();
     }
 }

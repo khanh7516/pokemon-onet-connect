@@ -39,7 +39,6 @@ public class ControlPanel extends JPanel implements ActionListener{
     private static int score = 0;
     private static JProgressBar progressTime;
     private static JLabel lbScore;
-    public static Clip clip;
     
     private PlayingFrame playingFrame;
     private int levelIndex;
@@ -56,22 +55,6 @@ public class ControlPanel extends JPanel implements ActionListener{
         createControlView();
         timer = new Timer(1000, this);
         timer.start();
-        
-        
-        try {
-            // Load audio file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/pkmCenter_night.wav"));
-
-            // Get audio clip
-            clip = AudioSystem.getClip();
-
-            // Open audio clip and start playing
-            clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         
     }
     
@@ -111,6 +94,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         btnPauseGame.setForeground(Color.WHITE);
         btnPauseGame.addActionListener((e) -> {
             timer.stop();
+            Main.clip.stop();
             JPanel glassPane = new JPanel();
             glassPane.setOpaque(true);
             playingFrame.setGlassPane(glassPane);
@@ -120,32 +104,28 @@ public class ControlPanel extends JPanel implements ActionListener{
                         new String[] {"Tiếp tục", "Bỏ cuộc"}, "Tiếp tục" );
             if(option == 0 || option == JOptionPane.CLOSED_OPTION) {
                 timer.start();
+                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);
                 glassPane.setVisible(false);        
             }else {
+                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);
                 PlayedHistoryFrame.addNewPlayer(new Player(startTime, LocalDateTime.now(), levelIndex, score, false));
-                PlayedHistoryFrame.displayPlayers();
+//                PlayedHistoryFrame.displayPlayers();
+                PlayedHistoryFrame.saveGame();
                 MenuFrame menuFrame = new MenuFrame();
-                clip.close();
                 playingFrame.setVisible(false);     
                 resetScore();
+                MatrixContainerPanel.resetLevel();
             }
         });
         
-        JToggleButton toggleMuteSound = new JToggleButton("Mute");
+        JToggleButton toggleMuteSound = new JToggleButton("Next Level");
         toggleMuteSound.setBackground(Color.BLACK);
         toggleMuteSound.setForeground(Color.WHITE);
         toggleMuteSound.addActionListener((e) -> {
-            if (toggleMuteSound.isSelected()) {
-                toggleMuteSound.setBackground(Color.WHITE);
-                toggleMuteSound.setForeground(Color.BLACK);
-                toggleMuteSound.setText("Unmute");
-                clip.stop();
-            }else {
-                toggleMuteSound.setBackground(Color.BLACK);
-                toggleMuteSound.setForeground(Color.WHITE);
-                toggleMuteSound.setText("Mute");
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
-            }
+              timer.stop();
+              playingFrame.setVisible(false);
+              playingFrame = new PlayingFrame(++MatrixContainerPanel.level, startTime);
+              
         });
         panelButtons.add(btnPauseGame);
         panelButtons.add(toggleMuteSound);
@@ -182,11 +162,12 @@ public class ControlPanel extends JPanel implements ActionListener{
             int option = JOptionPane.showOptionDialog(null, "Quay về menu?", "Game over!", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[]{"OK"}, "OK");
             if (option == JOptionPane.OK_OPTION || option == JOptionPane.CLOSED_OPTION) {
                 PlayedHistoryFrame.addNewPlayer(new Player(startTime, LocalDateTime.now(), levelIndex, score, false));
-                PlayedHistoryFrame.displayPlayers();
+//                PlayedHistoryFrame.displayPlayers();\
+                PlayedHistoryFrame.saveGame();
                 MenuFrame menuFrame = new MenuFrame();
-                clip.close();
                 playingFrame.setVisible(false);
                 resetScore();
+                MatrixContainerPanel.resetLevel();
             }
         }  
     }

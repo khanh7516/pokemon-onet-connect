@@ -4,9 +4,11 @@
  */
 package view;
 
+import handle.ExcelHandle;
 import view.PlayingFrame;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -24,11 +26,14 @@ public class MenuFrame extends javax.swing.JFrame {
         initComponents();
         
         btnPlay.setBackground(Color.WHITE);
-        btnRecord.setBackground(Color.WHITE);
+        btnHistory.setBackground(Color.WHITE);
         btnExit.setBackground(Color.WHITE);
+        
         setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        
     }
 
     /**
@@ -43,7 +48,7 @@ public class MenuFrame extends javax.swing.JFrame {
         panel1 = new java.awt.Panel();
         btnExit = new javax.swing.JButton();
         btnPlay = new javax.swing.JButton();
-        btnRecord = new javax.swing.JButton();
+        btnHistory = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,13 +71,13 @@ public class MenuFrame extends javax.swing.JFrame {
         });
         panel1.add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 139, 270, 50));
 
-        btnRecord.setText("Record");
-        btnRecord.addActionListener(new java.awt.event.ActionListener() {
+        btnHistory.setText("History");
+        btnHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRecordActionPerformed(evt);
+                btnHistoryActionPerformed(evt);
             }
         });
-        panel1.add(btnRecord, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 199, 270, 50));
+        panel1.add(btnHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 199, 270, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/background.jpg"))); // NOI18N
         panel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 0, 530, 340));
@@ -91,11 +96,13 @@ public class MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordActionPerformed
+    private void btnHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoryActionPerformed
         // TODO add your handling code here:
         PlayedHistoryFrame playedHistoryFrame = new PlayedHistoryFrame();
+
+        
         setVisible(false);
-    }//GEN-LAST:event_btnRecordActionPerformed
+    }//GEN-LAST:event_btnHistoryActionPerformed
 
     private void btnPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayActionPerformed
         // TODO add your handling code here:
@@ -146,8 +153,8 @@ public class MenuFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExit;
+    private javax.swing.JButton btnHistory;
     private javax.swing.JButton btnPlay;
-    private javax.swing.JButton btnRecord;
     private javax.swing.JLabel jLabel1;
     private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables

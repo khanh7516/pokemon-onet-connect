@@ -6,6 +6,7 @@ package entity;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -16,16 +17,25 @@ public class Player {
     private int id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String startTimeToString;
     private long timeTakenInSeconds;
     private String timeTaken;
     private int levelReached;
     private int score;
     private boolean hasCompletedAllLevels ;
 
+    public Player() {
+    }
+    
     public Player(LocalDateTime startTime, LocalDateTime endTime, int levelReached, int score, boolean hasCompletedAllLevels) {
         this.id = ++autoId;
         this.startTime = startTime;
         this.endTime = endTime;
+        
+        LocalDateTime changeTime = startTime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        this.startTimeToString =  changeTime.format(formatter);       
+
         
         Duration duration = Duration.between(startTime, endTime);
         timeTakenInSeconds = duration.getSeconds();
@@ -50,6 +60,15 @@ public class Player {
         return startTime;
     }
 
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public String getStartTimeToString() {
+        return startTimeToString;
+    }
+    
+    
     public long getTimeTakenInSeconds() {
         return timeTakenInSeconds;
     }
@@ -69,6 +88,45 @@ public class Player {
     public boolean isHasCompletedAllLevels() {
         return hasCompletedAllLevels;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setStartTimeToString(String startTimeToString) {
+        this.startTimeToString = startTimeToString;
+    }
+    
+    
+    public void setTimeTakenInSeconds(long timeTakenInSeconds) {
+        this.timeTakenInSeconds = timeTakenInSeconds;
+    }
+
+    public void setTimeTaken(String timeTaken) {
+        this.timeTaken = timeTaken;
+    }
+
+    public void setLevelReached(int levelReached) {
+        this.levelReached = levelReached;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setHasCompletedAllLevels(boolean hasCompletedAllLevels) {
+        this.hasCompletedAllLevels = hasCompletedAllLevels;
+    }
+    
+    
     
     
     

@@ -34,7 +34,7 @@ public class MatrixContainerPanel extends JPanel{
     private Pokemon[][] matrixButtons;
     private GameLogic gameLogic;
     private PlayingFrame playingFrame;
-    private static int level = 1;
+    public static int level = 1;
     private final int[] selectedCoords = {-1, -1, -1, -1};
     
     public MatrixContainerPanel(PlayingFrame playingFrame, Level currentLevel, int numberOfLevels) {
@@ -45,9 +45,7 @@ public class MatrixContainerPanel extends JPanel{
         this.dupImgs = currentLevel.getDuplicateImgs();
         
         this.numberOfLevels = numberOfLevels;
-        if(level > numberOfLevels) {
-            level = 1;
-        }
+        if(level > numberOfLevels) resetLevel();
         
         setLayout(new GridLayout(rows, cols, 2, 2));
         setBackground(Color.BLACK);
@@ -59,7 +57,9 @@ public class MatrixContainerPanel extends JPanel{
     public Pokemon[][] getMatrixButtons() {
         return matrixButtons;
     }
-    
+    public static void resetLevel() {
+        level = 1;
+    }
     
     private void createMatrixButton() {
         matrixButtons = new Pokemon[rows][cols];
@@ -81,7 +81,7 @@ public class MatrixContainerPanel extends JPanel{
                         if(allButtonsAreHidden()) {
                             ControlPanel.stopTime();
                             this.playingFrame.setVisible(false);
-                            this.playingFrame = new PlayingFrame(++level, playingFrame.getStartTime());                           
+                            this.playingFrame = new PlayingFrame(++level, playingFrame.getStartTime());  
                         }
                     });
                     index++;
@@ -248,4 +248,5 @@ public class MatrixContainerPanel extends JPanel{
         Image image = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
+    
 }
