@@ -8,43 +8,40 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- *
- * @author Acer
- */
-public class Player {
-    private static int autoId;
+public class Player {                   //class Player đại diện cho người chơi or 1 lần chơi (sau khi người chơi chơi xong thắng/ thua -> class Player được khởi tạo để lưu 1 lịch sử chơi)
+    private static int autoId;          
     private int id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private String startTimeToString;
-    private long timeTakenInSeconds;
-    private String timeTaken;
-    private int levelReached;
-    private int score;
-    private boolean hasCompletedAllLevels ;
+    private LocalDateTime startTime;    // thuộc tính lưu giá trị thời gian bắt đầu chơi (LocalDateTime)
+    private LocalDateTime endTime;      // thuộc tính lưu giá trị thời gian khi chơi xong (LocalDateTime)
+    private String startTimeToString;   // thời gian bắt đầu chơi được chuyển sang kiểu dữ liệu String (dễ dàng hiện thị khi cần)
+    private long timeTakenInSeconds;    // khoảng thời gian chơi trong khi chơi (chơi trong bao lâu) lưu theo kiểu dữ liệu long (1 giá trị là 1s)
+    private String timeTaken;           // khoảng thời gian chơi trong khi chơi được quy đổi ra phút (vd: 1p 30s, 5p 10s, ...) (String)    
+    private int levelReached;           // cấp độ cuối cùng mà lần chơi đó đạt tới (int) 
+    private int score;                  // điểm số mà lần chơi đó nhận được khi hoàn thành trò chơi (int)
+    private boolean hasCompletedAllLevels ; // lần chơi đó có vượt qua hết toàn bộ 5 màn chơi không (boolean) (nếu vượt qua cả 5 màn chơi --> true/ nếu không thì --> false)
 
     public Player() {
     }
     
-    public Player(LocalDateTime startTime, LocalDateTime endTime, int levelReached, int score, boolean hasCompletedAllLevels) {
+    public Player(LocalDateTime startTime, LocalDateTime endTime, int levelReached, int score, boolean hasCompletedAllLevels) { // khởi tạo đối tượng Player với các tham số (thời gian bắt đầu chơi, thời gian kết thúc chơi, cấp độ cuối cùng, điểm số, hoàn thành tất cả màn chơi)
         this.id = ++autoId;
-        this.startTime = startTime;
+        this.startTime = startTime;                 // gán giá trị của đối số cho thuộc tính của đối tượng
         this.endTime = endTime;
         
+        //chuyển đổi giá trị thời gian bắt đầu (LocalDateTime) sang dạng String
         LocalDateTime changeTime = startTime;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         this.startTimeToString =  changeTime.format(formatter);       
 
-        
-        Duration duration = Duration.between(startTime, endTime);
-        timeTakenInSeconds = duration.getSeconds();
-        if (timeTakenInSeconds < 60) {
-            this.timeTaken = timeTakenInSeconds + "s";
+        // lưu giá trị khoảng thời gian chơi bằng cách tìm giá trị duration (Duration) giữa startTime và endTime
+        Duration duration = Duration.between(startTime, endTime);   // method beetween() của class Duration giúp tìm khoảng thời gian giữa 2 biến LocalDateTime
+        timeTakenInSeconds = duration.getSeconds();                                      // khoảng thời gian được chuyển sang giây khi sử dụng thuộc tính getSecond và được gán cho thuộc tính timeTakenInSeconds   
+        if (timeTakenInSeconds < 60) {                               // kiểm tra nếu khoảng thời gian (khi chuyển sang giây) < 60 không                           
+            this.timeTaken = timeTakenInSeconds + "s";               // nếu có gán giá trị timeTaken thành [số giây] + s (vd: 20s, 30s, 45s, ...)                 
         } else {
-            long minutes = timeTakenInSeconds / 60;
-            long remainingSeconds = timeTakenInSeconds % 60;
-            this.timeTaken = minutes + "m" + remainingSeconds + "s";
+            long minutes = timeTakenInSeconds / 60;                  // ngược lại đổi số giây ra phút nêu giá trị lớn hơn 60 bằng cách lấy số giây chia cho 60   
+            long remainingSeconds = timeTakenInSeconds % 60;         // số giây còn lại sau khi đổi sang phút được tính qua phép chia phần dư cho 60   
+            this.timeTaken = minutes + "m" + remainingSeconds + "s"; // gán giá trị timeTaken thành [số phút] + m [space] + [số giây còn lại] + s (vd: 1p 20s, 2p 10s, 5p 18s)  
         }
         
         this.levelReached = levelReached;

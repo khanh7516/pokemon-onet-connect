@@ -8,15 +8,16 @@ package entity;
  *
  * @author Acer
  */
-public class Level {
-    private int rows;
-    private int cols;
-    private int numberOfImgs;
-    private int duplicateImgs;
-    private int playingTime;
+public class Level {                //class Level đại diện cho các màn chơi
+    private int rows;               // thuộc tính số hàng trong ma trận của màn chơi (int)
+    private int cols;               // thuộc thính số cột trong ma trận của màn chơi (int)
+    private int numberOfImgs;       // số lượng ảnh (pokemon) đưa vào ma trận (int)
+    private int duplicateImgs;      // số lượng ảnh (pokemon) trùng lặp bên trong ma trận (int)
+    private int playingTime;        // thời gian chơi (int) 1 giá trị đại diện cho 1s
     
-    public Level(int rows, int cols, int numberOfImgs, int duplicateImgs, int playingTime) {
-        this.rows = rows;
+    public Level(int rows, int cols, int numberOfImgs, int duplicateImgs, int playingTime) { //hàm khởi tạo đối tượng với các tham số tương ứng với các thuộc tính của class
+        // gán giá trị cho các thuộc tính với các đối số tương ứng     
+        this.rows = rows;                           
         this.cols = cols;
         this.numberOfImgs = numberOfImgs;
         this.duplicateImgs = duplicateImgs;

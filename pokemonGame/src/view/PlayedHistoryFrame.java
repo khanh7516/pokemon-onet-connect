@@ -215,7 +215,7 @@ public class PlayedHistoryFrame extends javax.swing.JFrame {
 
         // Sắp xếp danh sách Player theo lần chơi mới nhất
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        sortedPlayers.sort(Comparator.comparing(Player::getStartTimeToString));
+        sortedPlayers.sort(Comparator.comparing(Player::getStartTimeToString).reversed());
         
         // Cập nhật dữ liệu đã sắp xếp vào bảng
         for (int i = 0; i < sortedPlayers.size(); i++) {

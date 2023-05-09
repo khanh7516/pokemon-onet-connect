@@ -16,6 +16,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        //play music
         try {
             // Load audio file
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/Kawai.wav"));
@@ -30,7 +31,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }        
-
+        //hiển thị giao diện menu    
         MenuFrame menuFrame = new MenuFrame();
     }
 }

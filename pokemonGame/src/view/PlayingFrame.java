@@ -46,10 +46,10 @@ public class PlayingFrame extends JFrame{
 //        levels.put(3, new Level(8, 12 , 10, 6, 500));
 //        levels.put(4, new Level(8, 12 , 10, 6, 500));
 //        levels.put(5, new Level(8, 12 , 10, 6, 500));
-        levels.put(1, new Level(8, 12 , 10, 6, 30));
-        levels.put(2, new Level(10, 16 , 14, 8, 80));
-        levels.put(3, new Level(10, 20 , 24, 6, 120));
-        levels.put(4, new Level(12, 20 , 30, 6, 200));
+        levels.put(1, new Level(8, 12 , 10, 6, 60));
+        levels.put(2, new Level(10, 16 , 14, 8, 120));
+        levels.put(3, new Level(10, 20 , 24, 6, 180));
+        levels.put(4, new Level(12, 20 , 30, 6, 240));
         levels.put(5, new Level(12, 23 , 35, 6, 300));
         
 

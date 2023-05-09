@@ -18,10 +18,7 @@ import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Acer
- */
+
 public class MatrixContainerPanel extends JPanel{
     private int rows;
     private int cols;
@@ -122,7 +119,7 @@ public class MatrixContainerPanel extends JPanel{
         else {
             selectAnotherButton(clickedButton, x, y);
         }
-        System.out.println("!!!!!!!!");
+
 //        System.out.println(checkMatrixForMatch());
 //        while (!checkMatrixForMatch()) {            
 //            shufflePokemons();
@@ -160,6 +157,7 @@ public class MatrixContainerPanel extends JPanel{
         button.setSelected(false);
 
         System.out.println(checkMatrixForMatch());
+        System.out.println("        ");
         while (!checkMatrixForMatch()) {            
             shufflePokemons();
         }
