@@ -18,22 +18,26 @@ import java.util.Collections;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-
+//class MatrixContainerPanel giúp hiện thị và xử lý ma trận của màn chơi
 public class MatrixContainerPanel extends JPanel{
-    private int rows;
-    private int cols;
-    private final int SIZE = 45;
-    private int numberOfImgs;
-    private int dupImgs;
-    private int numberOfLevels;
+    private int rows;                               // số hàng của ma trận (int)
+    private int cols;                               // số cột của ma trận (int)
+    private final int SIZE = 45;                    // độ dài cạnh của nút (nút vuông) trong ma trận được gán giá trị cố định là 45  (int) 
+    private int numberOfImgs;                       // số lượng ảnh (pokemon) đưa vào ma trận                (int)  
+    private int dupImgs;                            // số lượng ảnh (pokemon) trùng lặp bên trong ma trận    (int)
+    private int numberOfLevels;                     // số lượng màn chơi của game
     
-    private ArrayList<File> pokemonImgs; 
-    private Pokemon[][] matrixButtons;
-    private GameLogic gameLogic;
-    private PlayingFrame playingFrame;
-    public static int level = 1;
-    private final int[] selectedCoords = {-1, -1, -1, -1};
+    private ArrayList<File> pokemonImgs;            // danh sánh lưu các file ảnh của các Pokemon
+    private Pokemon[][] matrixButtons;              // mảng 2 chiều với các phần tử là các đối tượng thuộc lớp Pokemon (các button)
+    private GameLogic gameLogic;                    // biến gameLogic kiểu dữ liệu là class gameLogic
+    private PlayingFrame playingFrame;              // frame màn chơi
+    public static int level = 1;                    // màn chơi thứ bao nhiêu (1 -> 5) (int)
     
+    //mảng selectedCoords chứa 4 phần tử lưu tọa độ x,y của 2 button được chọn
+    //được khởi tạo ban đầu với giá trị mặc định của tất cả các phần tử là -1. Tức là, ban đầu, không có phần tử nào được chọn.
+    private final int[] selectedCoords = {-1, -1, -1, -1};     
+    
+    //Hàm khởi tạo của class 
     public MatrixContainerPanel(PlayingFrame playingFrame, Level currentLevel, int numberOfLevels) {
         this.playingFrame = playingFrame;
         this.rows = currentLevel.getRows();
@@ -42,18 +46,20 @@ public class MatrixContainerPanel extends JPanel{
         this.dupImgs = currentLevel.getDuplicateImgs();
         
         this.numberOfLevels = numberOfLevels;
-        if(level > numberOfLevels) resetLevel();
+        if(level > numberOfLevels) resetLevel();    //nếu màn chơi hiện tại mà lớn hơn số lượng màn chơi, màn chơi hiện tại sẽ được reset
         
         setLayout(new GridLayout(rows, cols, 2, 2));
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(SIZE * cols, SIZE * rows));
+        
         createListPokemonImgs();
         createMatrixButton();
     }
-
+    //lấy mảng các nút pokemon trong ma trận
     public Pokemon[][] getMatrixButtons() {
         return matrixButtons;
     }
+    //method resetLevel() reset level của game về 1 (màn chơi đầu tiên)
     public static void resetLevel() {
         level = 1;
     }

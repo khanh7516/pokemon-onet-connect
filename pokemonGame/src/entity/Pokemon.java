@@ -8,8 +8,8 @@ import java.io.File;
 import javax.swing.JButton;
 
 public class Pokemon extends JButton{ //class Pokemon đại diện cho mỗi một nút có hình pokemon trong 1 ma của 1 màn chơi (kế thừa JButton)
-    private File value;               // thuộc tính value lưu giá trị của mỗi nút ( kiểu dữ liệu File)
     
+    private File value;               // thuộc tính value lưu giá trị của mỗi nút ( kiểu dữ liệu File)
                                      // thuộc tính value giúp so sánh giá trị của các nút ( 2 nút giống nhau or 2 nút khác nhau)    
                                     // thuộc tính value giúp set icon cho các nút thuận tiện hơn  
    

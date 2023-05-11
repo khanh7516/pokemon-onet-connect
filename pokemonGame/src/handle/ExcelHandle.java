@@ -5,7 +5,6 @@
 package handle;
 
 import entity.Player;
-import java.awt.Font;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,11 +16,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
