@@ -17,20 +17,20 @@ public class Main {
      */
     public static void main(String[] args) {
         //play music
-        try {
-            // Load audio file
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/Kawai.wav"));
-
-            // Get audio clip
-            clip = AudioSystem.getClip();
-
-            // Open audio clip and start playing
-            clip.open(audioInputStream);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }        
+//        try {
+//            // Load audio file
+//            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/resources/audio/Kawai.wav"));
+//
+//            // Get audio clip
+//            clip = AudioSystem.getClip();
+//
+//            // Open audio clip and start playing
+//            clip.open(audioInputStream);
+//            clip.loop(Clip.LOOP_CONTINUOUSLY);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }        
         //hiển thị giao diện menu    
         MenuFrame menuFrame = new MenuFrame();
     }

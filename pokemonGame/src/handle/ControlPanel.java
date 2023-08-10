@@ -95,7 +95,7 @@ public class ControlPanel extends JPanel implements ActionListener{
         btnPauseGame.setForeground(Color.WHITE);            // màu chữ nút: trắng
         btnPauseGame.addActionListener((e) -> {                // method được thực hiện sau sự kiện nhấn nút 
             timer.stop();                         // thời gian được dừng lại              
-            Main.clip.stop();                     // âm nhạc dừng lại  
+//            Main.clip.stop();                     // âm nhạc dừng lại  
             JPanel glassPane = new JPanel();      // che màn chơi hiện tại lại (người chơi không thể gian lận khi thời gian đang dừng)  
             glassPane.setOpaque(true);
             playingFrame.setGlassPane(glassPane);
@@ -105,10 +105,10 @@ public class ControlPanel extends JPanel implements ActionListener{
                         new String[] {"Tiếp tục", "Bỏ cuộc"}, "Tiếp tục" );
             if(option == 0 || option == JOptionPane.CLOSED_OPTION) {                    // nếu người chơi chọn tiếp tục hoặc đóng hộp thoại bằng nút close: 
                 timer.start();                                                          // thời gian tiếp tục chạy
-                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);                            // nhạc tiếp tục chạy 
+//                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);                            // nhạc tiếp tục chạy 
                 glassPane.setVisible(false);                                       // màn chơi đang bị che được mở lại 
             }else {                                                        // nếu người chơi chọn nút bỏ cuộc (màn chơi được tính là kết thúc, người chơi được tính là thua cuộc)         
-                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);               // tiếp tục phát nhạc
+//                Main.clip.loop(Clip.LOOP_CONTINUOUSLY);               // tiếp tục phát nhạc
                 //khởi tạo 1 đối tượng thuộc lớp (Player) lưu các thông tin về thời gian bắt đầu, thời gian kết thúc, thời gian chơi, điểm số,... khi người chơi kết thúc màn chơi và thêm nó vào danh sách lưu các đối tượng lớp Player
                 PlayedHistoryFrame.addNewPlayer(new Player(startTime, LocalDateTime.now(), levelIndex, score, false));
 //                PlayedHistoryFrame.displayPlayers();
@@ -120,17 +120,17 @@ public class ControlPanel extends JPanel implements ActionListener{
             }
         });
         
-        JToggleButton toggleMuteSound = new JToggleButton("Next Level");
-        toggleMuteSound.setBackground(Color.BLACK);
-        toggleMuteSound.setForeground(Color.WHITE);
-        toggleMuteSound.addActionListener((e) -> {
-              timer.stop();
-              playingFrame.setVisible(false);
-              playingFrame = new PlayingFrame(++MatrixContainerPanel.level, startTime);
-              
-        });
+//        JToggleButton toggleMuteSound = new JToggleButton("Next Level");
+//        toggleMuteSound.setBackground(Color.BLACK);
+//        toggleMuteSound.setForeground(Color.WHITE);
+//        toggleMuteSound.addActionListener((e) -> {
+//              timer.stop();
+//              playingFrame.setVisible(false);
+//              playingFrame = new PlayingFrame(++MatrixContainerPanel.level, startTime);
+//              
+//        });
         panelButtons.add(btnPauseGame);
-        panelButtons.add(toggleMuteSound);
+//        panelButtons.add(toggleMuteSound);
         
         //panel container time and buttons
         JPanel panelTimeButtons = new JPanel(new BorderLayout());

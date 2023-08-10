@@ -20,7 +20,7 @@ public class GameLogic {
     
     
     private boolean isEqualValue(int x0, int y0, int x1, int y1) {
-        return matrixButtons[x0][y0].getValue().equals(matrixButtons[x1][y1].getValue());
+        return matrixButtons[x0][y0].getValue() == matrixButtons[x1][y1].getValue();
     }
     
     private int[] getVerticalRange(int x, int y) {

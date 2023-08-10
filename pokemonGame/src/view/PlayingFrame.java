@@ -40,14 +40,14 @@ public class PlayingFrame extends JFrame{
         this.startTime = startTime;
         
         //setup levels
-//        levels.put(1, new Level(6, 6 , 8, 2, 10));
+//        levels.put(1, new Level(4, 5 , 3, 2, 90));
 //        levels.put(2, new Level(6, 6 , 8, 2, 10));
 //        levels.put(2, new Level(8, 12 , 10, 6, 30));
 //        levels.put(3, new Level(8, 12 , 10, 6, 500));
 //        levels.put(4, new Level(8, 12 , 10, 6, 500));
 //        levels.put(5, new Level(8, 12 , 10, 6, 500));
         levels.put(1, new Level(8, 12 , 10, 6, 60));
-        levels.put(2, new Level(10, 16 , 14, 8, 120));
+        levels.put(2, new Level(10, 14 , 16, 6, 120));
         levels.put(3, new Level(10, 20 , 24, 6, 180));
         levels.put(4, new Level(12, 20 , 30, 6, 240));
         levels.put(5, new Level(12, 23 , 35, 6, 300));
@@ -66,7 +66,7 @@ public class PlayingFrame extends JFrame{
         
         
         
-        setTitle("Pokemon Game");
+        setTitle("Pikachu Game");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(width, height);
